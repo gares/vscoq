@@ -428,8 +428,7 @@ let rec stream_tok n_tok acc str begin_line begin_char =
 
 let parse_one_sentence stream ~st =
   let pa = Pcoq.Parsable.make stream in
-  Vernacstate.Parser.parse st (Pvernac.main_entry (Some (Vernacinterp.get_default_proof_mode ()))) pa
-  (* FIXME: handle proof mode correctly *)
+  Vernacstate.Parser.parse st Pvernac.main_entry pa
 
 let rec junk_whitespace stream =
   match Stream.peek stream with
