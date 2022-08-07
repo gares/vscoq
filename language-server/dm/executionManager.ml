@@ -118,7 +118,7 @@ let interp_qed_delayed ~state_id vernac_st =
   let f proof =
     let fix_exn = None in (* FIXME *)
     let f, assign = Future.create_delegate ~blocking:false ~name:"XX" fix_exn in
-    Declare.Proof.close_future_proof ~feedback_id:state_id proof f, assign
+    Declare.Proof.stm_close_future_proof ~feedback_id:state_id proof f, assign
   in
   let lemmas = Option.get @@ vernac_st.Vernacstate.lemmas in
   let proof, assign = Vernacstate.LemmaStack.with_top lemmas ~f in
@@ -266,7 +266,7 @@ let execute ~doc_id st (vs, events, interrupted) task =
               | Success (Some vernac_st) ->
                 let f proof =
                   log "Resolved future";
-                  assign (`Val (Declare.Proof.return_proof proof))
+                  assign (`Val (Declare.Proof.return_proof ~opaque:true proof))
                 in
                 Vernacstate.LemmaStack.with_top (Option.get @@ vernac_st.Vernacstate.lemmas) ~f
               | Error ((loc,err),_) ->
