@@ -266,7 +266,7 @@ let execute ~doc_id st (vs, events, interrupted) task =
               | Success (Some vernac_st) ->
                 let f proof =
                   log "Resolved future";
-                  assign (`Val (Declare.Proof.return_proof ~opaque:true proof))
+                  assign (`Val (Declare.Proof.stm_return_opaque_proof proof))
                 in
                 Vernacstate.LemmaStack.with_top (Option.get @@ vernac_st.Vernacstate.lemmas) ~f
               | Error ((loc,err),_) ->
